@@ -22,3 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .env
+/data_sync
+latest-timestamp
+FilteredDataHuman
+data-migration-flag
