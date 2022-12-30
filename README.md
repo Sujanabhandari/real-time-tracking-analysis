@@ -18,6 +18,8 @@ If you provide me more time then I could finish client part and re-sumbit as wel
 
 - Create server/data_sync directory
 - Add FilteredDataHuman named json file. This file will be synced to database real-time.
+- Place your file there.
+- Go to server and clients and do `npm install`.
 - Use mongodb compass or similar to connect to the mongodb service using url `mongodb://localhost:27017`
 
 ## Start server
