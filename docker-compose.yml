@@ -1,0 +1,68 @@
+version: '3.7'
+
+services:
+  web:
+    image: node:14-alpine
+    working_dir: /app/server
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    volumes:
+      - ./server:/app/server
+      - ./server/node_modules:/app/server/node_modules
+    command: npm run start
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+
+  client:
+    image: node:14-alpine
+    working_dir: /app/client
+    volumes:
+      - ./client:/app/client
+      - ./client/node_modules:/app/client/node_modules
+    command: npm start
+    ports:
+      - 3001:3000
+    depends_on:
+      - web
+
+  mongodb:
+    image: mongo:latest
+    restart: unless-stopped
+    volumes:
+      - mongodb:/data/db
+    ports:
+      - 27017:27017
+
+  debug:
+    image: node:14-alpine
+    working_dir: /app/server
+    volumes:
+      - ./server:/app/server
+      - ./server/node_modules:/app/server/node_modules
+    environment:
+      - NODE_ENV=development
+      - NODE_DEBUG=server
+    command: npm run debug
+    ports:
+      - 9229:9229
+    depends_on:
+      - mongodb
+
+  debug_client:
+    image: node:14-alpine
+    working_dir: /app/client
+    volumes:
+      - ./client:/app/client
+      - ./client/node_modules:/app/client/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm start
+    ports:
+      - 9001:9000
+    depends_on:
+      - debug
+volumes:
+  mongodb:
