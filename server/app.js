@@ -1,12 +1,13 @@
-import * as dotenv from 'dotenv';
-import './database/heatmap.js';
-import createError from 'http-errors';
-import express from 'express';
-import path from 'path';
-import logger from 'morgan';
 import cors from 'cors';
+import * as dotenv from 'dotenv';
+import express from 'express';
+import createError from 'http-errors';
+import logger from 'morgan';
+import path from 'path';
 import { fileURLToPath } from 'url';
+import './database/db.js';
 import indexRouter from './routes/index.js';
+import dataRouter from './routes/data.js';
 
 dotenv.config();
 const app = express();
@@ -26,6 +27,7 @@ app.use(cors({ origin: '*', exposedHeaders: 'token' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/api', dataRouter);
 const port = process.env.PORT || 3000;
 
 // catch 404 and forward to error handler
